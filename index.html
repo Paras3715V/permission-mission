@@ -2,64 +2,75 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Mission Approval System</title>
+<title>Mission Approval Portal</title>
 
 <style>
+
+/* Animated Background */
 
 body{
 margin:0;
 font-family:monospace;
-background:#071707;
-color:#9cff9c;
 text-align:center;
+color:white;
+overflow-x:hidden;
+
+background: linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1a2a6c);
+background-size:400% 400%;
+animation:gradientBG 10s ease infinite;
 }
 
-/* LOGIN SCREEN */
-
-#login{
-margin-top:120px;
+@keyframes gradientBG{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
 
-input{
-padding:10px;
-font-size:16px;
-border-radius:6px;
-border:none;
-margin:10px;
+/* Main layout */
+
+h1{
+margin-top:60px;
+font-size:40px;
 }
+
+p{
+font-size:20px;
+}
+
+/* Buttons */
 
 button{
 padding:12px 25px;
 font-size:18px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 cursor:pointer;
-margin:10px;
+margin:15px;
+transition:0.3s;
 }
 
-#loginBtn{
-background:#1f8f1f;
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 20px #00ffd5;
+}
+
+#yes{
+background:#2ecc71;
 color:white;
 }
 
-/* LOADING */
-
-#loading{
-display:none;
-margin-top:150px;
-font-size:20px;
+#no{
+background:#e74c3c;
+color:white;
+position:absolute;
 }
 
-/* MAIN MISSION */
-
-#main{
-display:none;
-}
+/* Radar */
 
 #radar{
 width:250px;
 height:250px;
-border:4px solid #0f0;
+border:4px solid #00ff99;
 border-radius:50%;
 margin:30px auto;
 position:relative;
@@ -78,47 +89,34 @@ animation:spin 3s linear infinite;
 100%{transform:rotate(360deg)}
 }
 
-#yes{
-background:#2ecc71;
-color:white;
-}
+/* Certificate */
 
-#no{
-background:#c0392b;
-color:white;
-position:absolute;
-}
-
-/* PROGRESS BAR */
-
-#progressBar{
-width:60%;
-background:#222;
-margin:20px auto;
-border-radius:10px;
-overflow:hidden;
-}
-
-#progress{
-width:0%;
-height:20px;
-background:#2ecc71;
-}
-
-/* FINAL PAGE */
-
-#complete{
+#certificate{
 display:none;
-margin-top:100px;
+background:white;
+color:black;
+padding:30px;
+width:320px;
+margin:30px auto;
+border:6px solid gold;
+border-radius:12px;
+font-family:serif;
 }
 
-.confetti{
+/* Hearts */
+
+.heart{
 position:fixed;
-width:10px;
-height:10px;
-top:-10px;
-animation:fall linear forwards;
+font-size:20px;
+animation:float 6s linear infinite;
 }
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
+}
+
+/* Confetti */
 
 @keyframes fall{
 to{
@@ -126,125 +124,66 @@ transform:translateY(100vh) rotate(720deg);
 }
 }
 
-#secret{
-display:none;
-margin-top:40px;
-font-size:22px;
-color:#ffb6c1;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-
-<div id="login">
-
-<h1>Girlfriend Authorization Portal</h1>
-
-<p>Only the Commander can approve missions</p>
-
-<input placeholder="Commander Name">
-<br>
-<button id="loginBtn" onclick="startLoading()">Login</button>
-
-</div>
-
-
-<!-- LOADING -->
-
-<div id="loading">
-
-<p id="loadText">Connecting to Girlfriend Permission Server...</p>
-
-</div>
-
-
-<!-- MAIN -->
-
-<div id="main">
-
-<h1>MISSION REQUEST</h1>
+<h1>MISSION APPROVAL SYSTEM</h1>
 
 <div id="radar">
 <div id="scan"></div>
 </div>
 
-<p>
-Requesting permission to meet Utkarsh Bhaiya, collect OTA merch and have lunch at CP.
-</p>
-
-<p>Status: Awaiting Command Approval</p>
-
-<div id="progressBar">
-<div id="progress"></div>
-</div>
+<p id="missionText"></p>
 
 <button id="yes" onclick="approve()">Permission Granted</button>
 <button id="no">Permission Denied</button>
 
-</div>
+<div id="certificate">
 
+<h2>MISSION APPROVAL CERTIFICATE</h2>
 
-<!-- COMPLETE -->
+<p>This document certifies that</p>
 
-<div id="complete">
+<h3 id="commanderName">Commander</h3>
 
-<h1>MISSION APPROVED 🎉</h1>
+<p>has approved the mission for</p>
 
-<p>Permission granted by the most important commander ❤️</p>
+<h3>Paras</h3>
+
+<p>Mission Objective:</p>
 
 <p>
-Mission Plan: Meet Utkarsh Bhaiya → Collect OTA merch → Lunch → Return safely
+Meet Utkarsh Bhaiya → Collect OTA merch → Lunch at CP → Return safely
 </p>
 
-<button onclick="showSecret()">Open Secret Message</button>
+<p>Status: APPROVED ✅</p>
 
-<p id="secret">
-You are the best commander ever 💖  
-Even if I go anywhere, you are still my favourite person.
-</p>
+<p>Authorized by: The Best Girlfriend in the World ❤️</p>
 
 </div>
-
 
 <script>
 
-/* LOADING SCREEN */
+/* Typing Effect */
 
-function startLoading(){
-
-document.getElementById("login").style.display="none";
-document.getElementById("loading").style.display="block";
-
-const messages=[
-"Connecting to Girlfriend Permission Server...",
-"Authenticating Commander...",
-"Checking Boyfriend History...",
-"Preparing Mission Request..."
-];
-
+let text="Requesting permission to meet Utkarsh Bhaiya, collect OTA merchandise, and have lunch at Connaught Place.";
 let i=0;
 
-const interval=setInterval(()=>{
+function typing(){
 
-document.getElementById("loadText").innerText=messages[i];
+if(i<text.length){
+document.getElementById("missionText").innerHTML+=text.charAt(i);
 i++;
-
-if(i==messages.length){
-clearInterval(interval);
-document.getElementById("loading").style.display="none";
-document.getElementById("main").style.display="block";
+setTimeout(typing,40);
 }
-
-},1500);
 
 }
 
+typing();
 
-/* MOVING NO BUTTON */
+/* Moving NO button */
 
 const noBtn=document.getElementById("no");
 let attempts=0;
@@ -260,36 +199,44 @@ noBtn.style.left=x+"px";
 noBtn.style.top=y+"px";
 
 if(attempts==5){
-alert("System Suggestion: Please select 'Permission Granted' 😌");
+alert("⚠️ System Suggestion: Please choose 'Permission Granted' 😌");
 }
 
 });
 
-
-/* APPROVAL */
+/* Approve Mission */
 
 function approve(){
 
-document.getElementById("main").style.display="none";
-document.getElementById("complete").style.display="block";
+let name=prompt("Enter Commander Name");
+
+document.getElementById("commanderName").innerText=name;
+
+document.getElementById("certificate").style.display="block";
 
 confetti();
 
 }
 
-
-/* CONFETTI */
+/* Confetti */
 
 function confetti(){
 
 for(let i=0;i<150;i++){
 
 let c=document.createElement("div");
-c.className="confetti";
+
+c.style.position="fixed";
+c.style.width="8px";
+c.style.height="8px";
+
+c.style.background=`hsl(${Math.random()*360},100%,50%)`;
 
 c.style.left=Math.random()*100+"vw";
-c.style.background=`hsl(${Math.random()*360},100%,50%)`;
-c.style.animationDuration=(Math.random()*3+2)+"s";
+
+c.style.top="-10px";
+
+c.style.animation="fall 3s linear forwards";
 
 document.body.appendChild(c);
 
@@ -297,16 +244,25 @@ document.body.appendChild(c);
 
 }
 
+/* Floating hearts */
 
-/* SECRET MESSAGE */
+setInterval(()=>{
 
-function showSecret(){
+let heart=document.createElement("div");
 
-document.getElementById("secret").style.display="block";
+heart.className="heart";
 
-}
+heart.innerHTML="❤️";
+
+heart.style.left=Math.random()*100+"vw";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),6000);
+
+},600);
 
 </script>
 
 </body>
-  </html>
+</html>
