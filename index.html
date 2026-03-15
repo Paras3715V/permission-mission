@@ -1,43 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Mission Approval Portal</title>
+<title>Commander Mission Portal</title>
 
 <style>
 
-/* Animated Background */
+/* BACKGROUND */
 
 body{
 margin:0;
 font-family:monospace;
-text-align:center;
 color:white;
+text-align:center;
 overflow-x:hidden;
 
-background: linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1a2a6c);
+background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1a2a6c);
 background-size:400% 400%;
-animation:gradientBG 10s ease infinite;
+animation:bg 12s ease infinite;
 }
 
-@keyframes gradientBG{
+@keyframes bg{
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
 100%{background-position:0% 50%;}
 }
 
-/* Main layout */
+/* PAGES */
 
-h1{
-margin-top:60px;
-font-size:40px;
+.page{
+display:none;
+padding-top:80px;
 }
 
-p{
-font-size:20px;
+.active{
+display:block;
 }
 
-/* Buttons */
+/* BUTTONS */
 
 button{
 padding:12px 25px;
@@ -45,8 +45,8 @@ font-size:18px;
 border:none;
 border-radius:10px;
 cursor:pointer;
-margin:15px;
-transition:0.3s;
+margin:10px;
+transition:.3s;
 }
 
 button:hover{
@@ -65,11 +65,11 @@ color:white;
 position:absolute;
 }
 
-/* Radar */
+/* RADAR */
 
 #radar{
-width:250px;
-height:250px;
+width:220px;
+height:220px;
 border:4px solid #00ff99;
 border-radius:50%;
 margin:30px auto;
@@ -80,30 +80,39 @@ overflow:hidden;
 #scan{
 width:100%;
 height:100%;
-background:linear-gradient(90deg,transparent,rgba(0,255,0,0.5));
+background:linear-gradient(90deg,transparent,rgba(0,255,0,.5));
 animation:spin 3s linear infinite;
 }
 
 @keyframes spin{
-0%{transform:rotate(0deg)}
+0%{transform:rotate(0)}
 100%{transform:rotate(360deg)}
 }
 
-/* Certificate */
+/* DASHBOARD */
+
+.panel{
+background:rgba(0,0,0,.4);
+border-radius:10px;
+padding:20px;
+margin:20px auto;
+width:280px;
+}
+
+/* CERTIFICATE */
 
 #certificate{
-display:none;
 background:white;
 color:black;
 padding:30px;
 width:320px;
-margin:30px auto;
+margin:auto;
 border:6px solid gold;
-border-radius:12px;
-font-family:serif;
+border-radius:10px;
+display:none;
 }
 
-/* Hearts */
+/* HEARTS */
 
 .heart{
 position:fixed;
@@ -112,16 +121,14 @@ animation:float 6s linear infinite;
 }
 
 @keyframes float{
-0%{transform:translateY(100vh);}
-100%{transform:translateY(-10vh);}
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh)}
 }
 
-/* Confetti */
+/* CONFETTI */
 
 @keyframes fall{
-to{
-transform:translateY(100vh) rotate(720deg);
-}
+to{transform:translateY(100vh) rotate(720deg)}
 }
 
 </style>
@@ -129,88 +136,183 @@ transform:translateY(100vh) rotate(720deg);
 
 <body>
 
-<h1>MISSION APPROVAL SYSTEM</h1>
+<!-- LOGIN PAGE -->
+
+<div id="login" class="page active">
+
+<h1>Commander Authorization Portal</h1>
+
+<p>Only the Commander can approve missions.</p>
+
+<input id="name" placeholder="Commander Name">
+<br><br>
+
+<button onclick="enter()">Enter Command Center</button>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="page">
+
+<h1>Mission Control</h1>
 
 <div id="radar">
 <div id="scan"></div>
 </div>
 
-<p id="missionText"></p>
+<div class="panel">
 
-<button id="yes" onclick="approve()">Permission Granted</button>
-<button id="no">Permission Denied</button>
+<p>Target: Utkarsh Bhaiya</p>
+<p>Objective: OTA Merch Retrieval</p>
+<p>Location: Connaught Place</p>
+
+</div>
+
+<div class="panel">
+
+<p>Relationship Health: 98%</p>
+<p>Trust Score: 96%</p>
+<p>Approval Probability: <span id="prob">65%</span></p>
+
+</div>
+
+<h2>Mission Countdown</h2>
+
+<p id="timer"></p>
+
+<button onclick="startGame()">Proceed to Approval</button>
+
+</div>
+
+
+<!-- GAME -->
+
+<div id="game" class="page">
+
+<h1>Catch the YES Button</h1>
+
+<p>If you approve the mission, catch the YES button.</p>
+
+<button id="yes" onclick="approve()">YES</button>
+<button id="no">NO</button>
+
+</div>
+
+
+<!-- SUCCESS -->
+
+<div id="success" class="page">
+
+<h1>MISSION APPROVED 🎉</h1>
 
 <div id="certificate">
 
 <h2>MISSION APPROVAL CERTIFICATE</h2>
 
-<p>This document certifies that</p>
+<p>This certifies that</p>
 
-<h3 id="commanderName">Commander</h3>
+<h3 id="commander"></h3>
 
 <p>has approved the mission for</p>
 
 <h3>Paras</h3>
 
-<p>Mission Objective:</p>
-
 <p>
-Meet Utkarsh Bhaiya → Collect OTA merch → Lunch at CP → Return safely
+Meet Utkarsh Bhaiya → Collect OTA merch → Lunch → Return safely
 </p>
 
-<p>Status: APPROVED ✅</p>
-
-<p>Authorized by: The Best Girlfriend in the World ❤️</p>
+<p>Status: APPROVED</p>
 
 </div>
 
+<button onclick="secret()">Open Secret Message</button>
+
+<p id="secretMsg" style="display:none">
+You are the best commander ever ❤️
+</p>
+
+</div>
+
+
 <script>
 
-/* Typing Effect */
+/* PAGE SWITCH */
 
-let text="Requesting permission to meet Utkarsh Bhaiya, collect OTA merchandise, and have lunch at Connaught Place.";
-let i=0;
+function show(id){
 
-function typing(){
+document.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
 
-if(i<text.length){
-document.getElementById("missionText").innerHTML+=text.charAt(i);
-i++;
-setTimeout(typing,40);
-}
+document.getElementById(id).classList.add("active");
 
 }
 
-typing();
+/* LOGIN */
 
-/* Moving NO button */
+function enter(){
 
-const noBtn=document.getElementById("no");
-let attempts=0;
+let name=document.getElementById("name").value;
 
-noBtn.addEventListener("mouseover",function(){
-
-attempts++;
-
-const x=Math.random()*(window.innerWidth-100);
-const y=Math.random()*(window.innerHeight-100);
-
-noBtn.style.left=x+"px";
-noBtn.style.top=y+"px";
-
-if(attempts==5){
-alert("⚠️ System Suggestion: Please choose 'Permission Granted' 😌");
+if(name===""){
+alert("Enter Commander Name");
+return;
 }
+
+document.getElementById("commander").innerText=name;
+
+show("dashboard");
+
+}
+
+/* COUNTDOWN */
+
+let target=new Date();
+target.setHours(target.getHours()+2);
+
+setInterval(()=>{
+
+let now=new Date();
+
+let diff=target-now;
+
+let h=Math.floor(diff/1000/60/60);
+let m=Math.floor(diff/1000/60)%60;
+let s=Math.floor(diff/1000)%60;
+
+document.getElementById("timer")
+.innerText=h+"h "+m+"m "+s+"s";
+
+},1000);
+
+/* GAME */
+
+function startGame(){
+
+show("game");
+
+}
+
+/* ESCAPING NO */
+
+let no=document.getElementById("no");
+
+no.addEventListener("mouseover",()=>{
+
+let x=Math.random()*(window.innerWidth-100);
+let y=Math.random()*(window.innerHeight-100);
+
+no.style.left=x+"px";
+no.style.top=y+"px";
 
 });
 
-/* Approve Mission */
+/* APPROVAL */
 
 function approve(){
 
-let name=prompt("Enter Commander Name");
-
-document.getElementById("commanderName").innerText=name;
+show("success");
 
 document.getElementById("certificate").style.display="block";
 
@@ -218,11 +320,11 @@ confetti();
 
 }
 
-/* Confetti */
+/* CONFETTI */
 
 function confetti(){
 
-for(let i=0;i<150;i++){
+for(let i=0;i<120;i++){
 
 let c=document.createElement("div");
 
@@ -244,23 +346,30 @@ document.body.appendChild(c);
 
 }
 
-/* Floating hearts */
+/* SECRET */
+
+function secret(){
+
+document.getElementById("secretMsg").style.display="block";
+
+}
+
+/* HEARTS */
 
 setInterval(()=>{
 
-let heart=document.createElement("div");
+let h=document.createElement("div");
 
-heart.className="heart";
+h.className="heart";
+h.innerHTML="❤️";
 
-heart.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
 
-heart.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
 
-document.body.appendChild(heart);
+setTimeout(()=>h.remove(),6000);
 
-setTimeout(()=>heart.remove(),6000);
-
-},600);
+},700);
 
 </script>
 
