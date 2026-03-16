@@ -9,25 +9,50 @@
 
 <style>
 
-/* ---------- BODY ---------- */
+/* BODY */
 
 body{
 margin:0;
 font-family:Arial, sans-serif;
 text-align:center;
+color:#222;
+min-height:100vh;
 
-background:linear-gradient(135deg,#ffffff,#eafff1);
+background:
+radial-gradient(circle at 20% 30%, #eafff1 0%, transparent 40%),
+radial-gradient(circle at 80% 70%, #d4ffe6 0%, transparent 40%),
+linear-gradient(135deg,#ffffff,#eafff1);
 
 display:flex;
 flex-direction:column;
-justify-content:center;
 align-items:center;
-
-min-height:100vh;
-color:#222;
+justify-content:center;
 }
 
-/* ---------- PAGES ---------- */
+/* GRID OVERLAY */
+
+body::before{
+
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+
+background-image:
+linear-gradient(#e8ffe8 1px, transparent 1px),
+linear-gradient(90deg,#e8ffe8 1px, transparent 1px);
+
+background-size:40px 40px;
+
+opacity:0.3;
+
+pointer-events:none;
+
+}
+
+/* PAGES */
 
 .page{
 display:none;
@@ -39,7 +64,7 @@ width:100%;
 display:block;
 }
 
-/* ---------- CARD PANELS ---------- */
+/* PANELS */
 
 .panel{
 
@@ -57,7 +82,7 @@ box-shadow:0 6px 20px rgba(0,0,0,0.1);
 
 }
 
-/* ---------- BUTTONS ---------- */
+/* BUTTONS */
 
 button{
 
@@ -73,9 +98,9 @@ border-radius:12px;
 
 margin:12px;
 
-transition:0.3s;
-
 cursor:pointer;
+
+transition:0.3s;
 
 }
 
@@ -94,7 +119,7 @@ color:white;
 position:absolute;
 }
 
-/* ---------- RADAR ---------- */
+/* RADAR */
 
 #radar{
 
@@ -133,7 +158,24 @@ animation:spin 3s linear infinite;
 
 }
 
-/* ---------- CERTIFICATE ---------- */
+/* PROGRESS BAR */
+
+.progress{
+width:80%;
+max-width:320px;
+background:#ddd;
+border-radius:20px;
+margin:20px auto;
+overflow:hidden;
+}
+
+.progress-inner{
+height:18px;
+width:0%;
+background:#2ecc71;
+}
+
+/* CERTIFICATE */
 
 #certificate{
 
@@ -151,7 +193,7 @@ margin:auto;
 
 }
 
-/* ---------- FLOATING EMOJIS ---------- */
+/* FLOATING EMOJIS */
 
 @keyframes float{
 0%{transform:translateY(100vh)}
@@ -164,21 +206,18 @@ font-size:22px;
 animation:float 6s linear;
 }
 
-/* ---------- PROGRESS BAR ---------- */
+/* FLOATING SHAPES */
 
-.progress{
-width:80%;
-max-width:320px;
-background:#ddd;
-border-radius:20px;
-margin:20px auto;
-overflow:hidden;
+.shape{
+position:fixed;
+border-radius:50%;
+opacity:0.2;
+animation:floatShape 12s linear infinite;
 }
 
-.progress-inner{
-height:18px;
-width:0%;
-background:#2ecc71;
+@keyframes floatShape{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-20vh)}
 }
 
 </style>
@@ -187,7 +226,7 @@ background:#2ecc71;
 
 <body>
 
-<!-- LOGIN PAGE -->
+<!-- LOGIN -->
 
 <div id="login" class="page active">
 
@@ -195,11 +234,13 @@ background:#2ecc71;
 
 <p>Enter Commander Name</p>
 
-<input id="name" placeholder="Commander Name" style="padding:12px;font-size:18px;border-radius:8px;border:1px solid #ccc">
+<input id="name"
+placeholder="Commander Name"
+style="padding:12px;font-size:18px;border-radius:8px;border:1px solid #ccc">
 
 <br>
 
-<button onclick="enter()">Enter Mission Control</button>
+<button onclick="enter()">🚀 Enter Mission Control</button>
 
 </div>
 
@@ -216,17 +257,27 @@ background:#2ecc71;
 
 <div class="panel">
 
-<p><b>Target:</b> Utkarsh Bhaiya</p>
-<p><b>Objective:</b> OTA Merch Retrieval</p>
-<p><b>Location:</b> Connaught Place</p>
+<p>🎯 Target: Utkarsh Bhaiya</p>
+<p>🎁 Objective: OTA Merch Retrieval</p>
+<p>📍 Location: Connaught Place</p>
 
 </div>
 
 <div class="panel">
 
-<p>Relationship Health: 98%</p>
-<p>Trust Level: 95%</p>
-<p>Approval Probability: 73%</p>
+<p>💚 Relationship Health: 98%</p>
+<p>🤝 Trust Level: 95%</p>
+<p>📊 Approval Probability: 73%</p>
+
+</div>
+
+<div class="panel">
+
+<h3>Mission Status</h3>
+
+<p>🟢 System Online</p>
+<p>🛰 Radar Active</p>
+<p>💚 Commander Detected</p>
 
 </div>
 
@@ -234,12 +285,12 @@ background:#2ecc71;
 <div id="bar" class="progress-inner"></div>
 </div>
 
-<button onclick="next()">Proceed to Approval</button>
+<button onclick="next()">➡ Proceed to Approval</button>
 
 </div>
 
 
-<!-- APPROVAL GAME -->
+<!-- GAME -->
 
 <div id="game" class="page">
 
@@ -247,13 +298,13 @@ background:#2ecc71;
 
 <p>Catch the YES button to approve mission</p>
 
-<button id="yes" onclick="approve()">YES</button>
-<button id="no">NO</button>
+<button id="yes" onclick="approve()">✅ YES</button>
+<button id="no">❌ NO</button>
 
 </div>
 
 
-<!-- SUCCESS PAGE -->
+<!-- SUCCESS -->
 
 <div id="success" class="page">
 
@@ -272,7 +323,7 @@ background:#2ecc71;
 <p><b>Agent:</b> Paras</p>
 
 <p>Meet Utkarsh Bhaiya</p>
-<p>Collect OTA merch</p>
+<p>Collect OTA Merch</p>
 <p>Lunch at Connaught Place</p>
 
 <p>Status: <b>APPROVED</b></p>
@@ -282,9 +333,7 @@ background:#2ecc71;
 <button onclick="secret()">Open Secret Message</button>
 
 <p id="secret" style="display:none;font-size:20px;margin-top:20px">
-
 You are the best commander ❤️
-
 </p>
 
 </div>
@@ -402,50 +451,31 @@ setTimeout(()=>e.remove(),6000);
 /* SECRET MESSAGE */
 
 function secret(){
-
 document.getElementById("secret").style.display="block";
-
 }
 
-/* FLOATING EMOJIS */
+/* FLOATING SHAPES */
 
 setInterval(()=>{
 
-let e=document.createElement("div");
+let s=document.createElement("div");
 
-e.className="emoji";
+s.className="shape";
 
-let icons=["💚","✨"];
+let size=Math.random()*120+40;
 
-e.innerHTML=icons[Math.floor(Math.random()*icons.length)];
+s.style.width=size+"px";
+s.style.height=size+"px";
 
-e.style.left=Math.random()*100+"vw";
+s.style.background="#2ecc71";
 
-document.body.appendChild(e);
+s.style.left=Math.random()*100+"vw";
 
-setTimeout(()=>e.remove(),6000);
+document.body.appendChild(s);
 
-},1500);
+setTimeout(()=>s.remove(),12000);
 
-/* SWIPE TO APPROVE */
-
-let startX=0;
-
-document.addEventListener("touchstart",e=>{
-startX=e.touches[0].clientX;
-});
-
-document.addEventListener("touchend",e=>{
-
-let endX=e.changedTouches[0].clientX;
-
-if(endX-startX>120){
-
-approve();
-
-}
-
-});
+},2000);
 
 </script>
 
