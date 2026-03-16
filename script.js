@@ -1,46 +1,37 @@
 function startMission(){
 
-let name=document.getElementById("name").value;
-
-localStorage.setItem("commander",name);
-
-window.location="mission.html";
+window.location.href="mission.html"
 
 }
 
 function approveMission(){
 
-window.location="certificate.html";
+window.location.href="certificate.html"
 
 }
 
-window.onload=function(){
+/* moving deny button */
 
-let commander=localStorage.getItem("commander");
+let deny=document.getElementById("deny")
 
-let el=document.getElementById("commander");
+if(deny){
 
-if(el){
+deny.addEventListener("touchstart",move)
 
-el.innerText=commander;
-
-}
+deny.addEventListener("mouseover",move)
 
 }
 
-/* ESCAPING DENY BUTTON */
+function move(){
 
-let no=document.getElementById("no");
+let x=Math.random()*250
 
-if(no){
+let y=Math.random()*300
 
-no.addEventListener("mouseover",function(){
+deny.style.position="absolute"
 
-let x=Math.random()*200-100;
-let y=Math.random()*200-100;
+deny.style.left=x+"px"
 
-no.style.transform=`translate(${x}px,${y}px)`;
-
-});
+deny.style.top=y+"px"
 
 }
