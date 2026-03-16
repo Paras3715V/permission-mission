@@ -6,19 +6,37 @@ window.location.href="mission.html"
 
 function approveMission(){
 
+let name=document.getElementById("nameInput").value
+
+if(name===""){
+
+alert("Please enter your name")
+
+return
+
+}
+
+localStorage.setItem("missionName",name)
+
 window.location.href="certificate.html"
 
 }
 
-/* moving deny button */
+if(document.getElementById("personName")){
+
+let name=localStorage.getItem("missionName")
+
+document.getElementById("personName").innerText=name
+
+}
 
 let deny=document.getElementById("deny")
 
 if(deny){
 
-deny.addEventListener("touchstart",move)
-
 deny.addEventListener("mouseover",move)
+
+deny.addEventListener("touchstart",move)
 
 }
 
