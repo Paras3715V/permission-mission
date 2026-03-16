@@ -3,128 +3,92 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<title>Mission Approval Portal</title>
+<title>Mission Control</title>
 
 <style>
 
-/* BODY */
+/* GLOBAL */
+
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
 font-family:Arial, sans-serif;
-text-align:center;
+background:linear-gradient(135deg,#ffffff,#eafff1);
+overflow-x:hidden;
 color:#222;
-min-height:100vh;
-
-background:
-radial-gradient(circle at 20% 30%, #eafff1 0%, transparent 40%),
-radial-gradient(circle at 80% 70%, #d4ffe6 0%, transparent 40%),
-linear-gradient(135deg,#ffffff,#eafff1);
-
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
 }
 
-/* GRID OVERLAY */
+/* HEADER */
 
-body::before{
-
-content:"";
-position:fixed;
+.header{
+position:sticky;
 top:0;
-left:0;
 width:100%;
-height:100%;
+background:white;
+padding:16px;
+font-size:20px;
+font-weight:bold;
+text-align:center;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
 
-background-image:
-linear-gradient(#e8ffe8 1px, transparent 1px),
-linear-gradient(90deg,#e8ffe8 1px, transparent 1px);
+/* CONTAINER */
 
-background-size:40px 40px;
-
-opacity:0.3;
-
-pointer-events:none;
-
+.container{
+max-width:420px;
+margin:auto;
+padding:12px;
 }
 
 /* PAGES */
 
 .page{
 display:none;
-padding:20px;
-width:100%;
 }
 
 .active{
 display:block;
 }
 
-/* PANELS */
+/* CARDS */
 
-.panel{
-
-width:90%;
-max-width:360px;
+.card{
 
 background:white;
 
 padding:18px;
-margin:14px auto;
 
-border-radius:14px;
+margin:12px 0;
 
-box-shadow:0 6px 20px rgba(0,0,0,0.1);
+border-radius:16px;
 
-}
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
 
-/* BUTTONS */
-
-button{
-
-width:80%;
-max-width:320px;
-
-padding:16px;
-
-font-size:20px;
-
-border:none;
-border-radius:12px;
-
-margin:12px;
-
-cursor:pointer;
-
-transition:0.3s;
+text-align:left;
 
 }
 
-button:hover{
-transform:scale(1.05);
-}
+/* ROWS */
 
-#yes{
-background:#2ecc71;
-color:white;
-}
-
-#no{
-background:#ff4d4d;
-color:white;
-position:absolute;
+.row{
+display:flex;
+align-items:center;
+gap:10px;
+margin:8px 0;
+font-size:16px;
 }
 
 /* RADAR */
 
 #radar{
 
-width:200px;
-height:200px;
+width:180px;
+height:180px;
 
 border-radius:50%;
 
@@ -152,72 +116,86 @@ animation:spin 3s linear infinite;
 }
 
 @keyframes spin{
-
-0%{transform:rotate(0deg)}
+0%{transform:rotate(0)}
 100%{transform:rotate(360deg)}
+}
+
+/* BUTTONS */
+
+button{
+
+width:100%;
+
+padding:16px;
+
+font-size:18px;
+
+font-weight:bold;
+
+border:none;
+
+border-radius:14px;
+
+margin-top:10px;
+
+cursor:pointer;
 
 }
 
-/* PROGRESS BAR */
+.primary{
+background:#2ecc71;
+color:white;
+}
+
+.danger{
+background:#ff4d4d;
+color:white;
+}
+
+/* PROGRESS */
 
 .progress{
-width:80%;
-max-width:320px;
-background:#ddd;
-border-radius:20px;
-margin:20px auto;
+width:100%;
+height:16px;
+background:#eee;
+border-radius:10px;
 overflow:hidden;
+margin-top:10px;
 }
 
 .progress-inner{
-height:18px;
+height:100%;
 width:0%;
 background:#2ecc71;
 }
 
 /* CERTIFICATE */
 
-#certificate{
+.certificate{
 
 background:white;
 
-padding:25px;
+padding:20px;
 
 border:5px solid gold;
 
 border-radius:12px;
 
-max-width:340px;
-
-margin:auto;
+text-align:center;
 
 }
 
 /* FLOATING EMOJIS */
 
-@keyframes float{
-0%{transform:translateY(100vh)}
-100%{transform:translateY(-10vh)}
-}
-
 .emoji{
 position:fixed;
-font-size:22px;
+font-size:20px;
 animation:float 6s linear;
 }
 
-/* FLOATING SHAPES */
-
-.shape{
-position:fixed;
-border-radius:50%;
-opacity:0.2;
-animation:floatShape 12s linear infinite;
-}
-
-@keyframes floatShape{
+@keyframes float{
 0%{transform:translateY(100vh)}
-100%{transform:translateY(-20vh)}
+100%{transform:translateY(-10vh)}
 }
 
 </style>
@@ -226,129 +204,132 @@ animation:floatShape 12s linear infinite;
 
 <body>
 
+<div class="header">
+🚀 Mission Control
+</div>
+
+<div class="container">
+
 <!-- LOGIN -->
 
 <div id="login" class="page active">
 
-<h1>Commander Portal</h1>
+<div class="card">
 
-<p>Enter Commander Name</p>
+<h3>Commander Login</h3>
 
 <input id="name"
 placeholder="Commander Name"
-style="padding:12px;font-size:18px;border-radius:8px;border:1px solid #ccc">
+style="width:100%;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc">
 
-<br>
-
-<button onclick="enter()">🚀 Enter Mission Control</button>
+<button class="primary" onclick="enter()">Enter Dashboard</button>
 
 </div>
 
+</div>
 
 <!-- DASHBOARD -->
 
 <div id="dashboard" class="page">
 
-<h1>Mission Dashboard</h1>
-
 <div id="radar">
 <div id="scan"></div>
 </div>
 
-<div class="panel">
+<div class="card">
 
-<p>🎯 Target: Utkarsh Bhaiya</p>
-<p>🎁 Objective: OTA Merch Retrieval</p>
-<p>📍 Location: Connaught Place</p>
+<h3>Mission Details</h3>
 
-</div>
-
-<div class="panel">
-
-<p>💚 Relationship Health: 98%</p>
-<p>🤝 Trust Level: 95%</p>
-<p>📊 Approval Probability: 73%</p>
+<div class="row">🎯 Target: Utkarsh Bhaiya</div>
+<div class="row">🎁 Objective: OTA Merch Retrieval</div>
+<div class="row">📍 Location: Connaught Place</div>
 
 </div>
 
-<div class="panel">
+<div class="card">
 
-<h3>Mission Status</h3>
+<h3>Status</h3>
 
-<p>🟢 System Online</p>
-<p>🛰 Radar Active</p>
-<p>💚 Commander Detected</p>
+<div class="row">🟢 System Online</div>
+<div class="row">🛰 Radar Active</div>
+<div class="row">💚 Commander Detected</div>
 
 </div>
+
+<div class="card">
+
+<h3>Approval Probability</h3>
 
 <div class="progress">
 <div id="bar" class="progress-inner"></div>
 </div>
 
-<button onclick="next()">➡ Proceed to Approval</button>
-
 </div>
 
+<button class="primary" onclick="next()">Proceed to Approval</button>
+
+</div>
 
 <!-- GAME -->
 
 <div id="game" class="page">
 
-<h2>Mission Approval Required</h2>
+<div class="card">
 
-<p>Catch the YES button to approve mission</p>
+<h3>Mission Approval Required</h3>
 
-<button id="yes" onclick="approve()">✅ YES</button>
-<button id="no">❌ NO</button>
+<p>Try clicking YES 😄</p>
+
+<button id="yes" class="primary" onclick="approve()">YES</button>
+
+<button id="no" class="danger">NO</button>
 
 </div>
 
+</div>
 
 <!-- SUCCESS -->
 
 <div id="success" class="page">
 
-<h1>Mission Approved 🎉</h1>
+<div class="certificate">
 
-<div id="certificate">
-
-<h2>Approval Certificate</h2>
+<h2>Mission Approved 🎉</h2>
 
 <p>This certifies that</p>
 
 <h3 id="commander"></h3>
 
-<p>has approved the mission</p>
-
-<p><b>Agent:</b> Paras</p>
+<p>approved the mission</p>
 
 <p>Meet Utkarsh Bhaiya</p>
-<p>Collect OTA Merch</p>
+<p>Collect OTA merch</p>
 <p>Lunch at Connaught Place</p>
 
-<p>Status: <b>APPROVED</b></p>
+<p><b>Status: APPROVED</b></p>
 
 </div>
 
-<button onclick="secret()">Open Secret Message</button>
+<button class="primary" onclick="secret()">Reveal Secret</button>
 
-<p id="secret" style="display:none;font-size:20px;margin-top:20px">
+<p id="secret" style="display:none;margin-top:10px">
 You are the best commander ❤️
 </p>
 
 </div>
 
+</div>
 
 <script>
 
 /* PAGE SWITCH */
 
-function show(page){
+function show(id){
 
 document.querySelectorAll(".page")
 .forEach(p=>p.classList.remove("active"));
 
-document.getElementById(page).classList.add("active");
+document.getElementById(id).classList.add("active");
 
 }
 
@@ -371,7 +352,7 @@ progress();
 
 }
 
-/* PROGRESS BAR */
+/* PROGRESS */
 
 function progress(){
 
@@ -379,19 +360,19 @@ let bar=document.getElementById("bar");
 
 let width=0;
 
-let interval=setInterval(()=>{
+let i=setInterval(()=>{
 
 width+=2;
 
 bar.style.width=width+"%";
 
-if(width>=100) clearInterval(interval);
+if(width>=100) clearInterval(i);
 
 },50);
 
 }
 
-/* NEXT PAGE */
+/* NEXT */
 
 function next(){
 show("game");
@@ -401,14 +382,15 @@ show("game");
 
 let no=document.getElementById("no");
 
-no.addEventListener("touchstart",move);
 no.addEventListener("mouseover",move);
+no.addEventListener("touchstart",move);
 
 function move(){
 
-let x=Math.random()*(window.innerWidth-120);
-let y=Math.random()*(window.innerHeight-120);
+let x=Math.random()*(window.innerWidth-140);
+let y=Math.random()*(window.innerHeight-140);
 
+no.style.position="fixed";
 no.style.left=x+"px";
 no.style.top=y+"px";
 
@@ -428,7 +410,7 @@ confetti();
 
 function confetti(){
 
-for(let i=0;i<80;i++){
+for(let i=0;i<70;i++){
 
 let e=document.createElement("div");
 
@@ -448,34 +430,13 @@ setTimeout(()=>e.remove(),6000);
 
 }
 
-/* SECRET MESSAGE */
+/* SECRET */
 
 function secret(){
+
 document.getElementById("secret").style.display="block";
+
 }
-
-/* FLOATING SHAPES */
-
-setInterval(()=>{
-
-let s=document.createElement("div");
-
-s.className="shape";
-
-let size=Math.random()*120+40;
-
-s.style.width=size+"px";
-s.style.height=size+"px";
-
-s.style.background="#2ecc71";
-
-s.style.left=Math.random()*100+"vw";
-
-document.body.appendChild(s);
-
-setTimeout(()=>s.remove(),12000);
-
-},2000);
 
 </script>
 
